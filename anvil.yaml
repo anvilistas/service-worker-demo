@@ -1,0 +1,28 @@
+dependencies:
+- app_id: C6ZZPAPN4YYF5NVJ
+  version: {dev: false}
+- app_id: 5YU7BBT6T5O7ZNOX
+  version: {dev: true}
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {}
+startup: {type: form, module: Form1}
+package_name: Offline_Todo_Demo
+allow_embedding: false
+name: Clone of Clone of Offline Todo Demo
+runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
+startup_form: null
+db_schema:
+  todo:
+    title: todo
+    client: none
+    server: full
+    columns:
+    - name: uuid
+      admin_ui: {width: 200}
+      type: string
+    - name: description
+      admin_ui: {width: 200}
+      type: string
+renamed: true

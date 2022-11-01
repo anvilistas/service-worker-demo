@@ -1,0 +1,26 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"XLJOPQ":50,"JICUSO":10}'}
+components:
+- type: Label
+  properties: {}
+  name: label_1
+  layout_properties: {grid_position: 'LOXMKN,XLJOPQ'}
+  data_bindings:
+  - {property: text, code: self.item.description}
+- type: FlowPanel
+  properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+    foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+  name: flow_panel_1
+  layout_properties: {grid_position: 'LOXMKN,JICUSO'}
+  components:
+  - type: Button
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: indianred, visible: true, text: '', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:trash'}
+    name: delete_button
+    layout_properties: {}
+    event_bindings: {click: delete_button_click}
+is_package: true
+component: []
