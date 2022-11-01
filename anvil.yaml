@@ -10,7 +10,7 @@ services:
 startup: {type: form, module: Form1}
 package_name: Offline_Todo_Demo
 allow_embedding: false
-name: Clone of Clone of Offline Todo Demo
+name: Demo - Offline Todo
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
 startup_form: null
 db_schema:
