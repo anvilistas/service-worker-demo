@@ -24,7 +24,7 @@ components:
     layout_properties: {grid_position: 'DLWKYI,XGBUBG'}
     event_bindings: {pressed_enter: text_box_1_pressed_enter}
   - type: RepeatingPanel
-    properties: {item_template: Form1.ItemTemplate1}
+    properties: {item_template: Main.ItemTemplate1}
     name: repeating_panel_1
     layout_properties: {grid_position: 'DSUDKA,JWRFVN'}
 - type: FlowPanel
