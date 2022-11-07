@@ -5,10 +5,9 @@ store = TodoStore()
 
 @self.sync_event_handler
 def onsync(e):
-    print(f"sync fired with tag: {e.tag!r}")
-    self.raise_event("todos.sync.starting")
     if e.tag != "todos.online":
         return
+    self.raise_event("todos.sync.starting")
     store.sync()
     self.raise_event("todos.sync.done")
 

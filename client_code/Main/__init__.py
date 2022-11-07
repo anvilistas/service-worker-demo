@@ -1,6 +1,6 @@
+import anvil.js
 import anvil.server
 import anvil_labs.service_worker as sw
-import anvil.js
 
 from ..model.portable import Todo
 from ..session import publisher, store
@@ -9,16 +9,29 @@ from ._anvil_designer import MainTemplate
 
 class Main(MainTemplate):
     def __init__(self, **properties):
-        self.sync_status = "synced"
+        self._sync_status = "done"
         self.init_components(**properties)
         publisher.subscribe("todos", self, self.message_handler)
-        sw.subscribe("todos.sync.starting", self.on_sync_start)
-        sw.subscribe("todos.sync.done", self.on_sync_done)
+        sw.subscribe("todos.sync.starting", self.on_sync)
+        sw.subscribe("todos.sync.done", self.on_sync)
         self.refresh_todos()
 
     @property
+    def sync_status(self):
+        return self._sync_status
+
+    @sync_status.setter
+    def sync_status(self, value):
+        self._sync_status = value
+        self.refresh_data_bindings()
+
+    @property
     def sync_label_props(self):
-        props = {"synced": {"text": "Synced", "icon": "fa:check"}, "syncing": {"text": "Syncing with server...", "icon": "fa:refresh"}}
+        props = {
+            "done": {"text": "Synced", "icon": "fa:check"},
+            "starting": {"text": "Syncing with server...", "icon": "fa:refresh"},
+            "offline": {"text": "Offline", "icon": "fa:chain-broken"}
+        }
         return props[self.sync_status]
 
     def message_handler(self, message):
@@ -27,8 +40,8 @@ class Main(MainTemplate):
 
     def do_sync(self):
         if not anvil.server.is_app_online():
-            msg = "It looks like you're offline - we'll try again when you're back"
-            anvil.Notification(msg).show()
+            self.sync_status = "offline"
+        
         try:
             sw.register_sync("todos.online")
         except anvil.js.ExternalError as err:
@@ -45,13 +58,8 @@ class Main(MainTemplate):
     def refresh_todos(self):
         self.repeating_panel_1.items = store.all()
 
-    def on_sync_start(self, **event_args):
-        self.sync_status = "syncing"
-        self.refresh_data_bindings()
-
-    def on_sync_done(self, **event_args):
-        self.sync_status = "synced"
-        self.refresh_data_bindings()
+    def on_sync(self, event_name, **event_args):
+        self.sync_status = event_name.split(".")[-1]
 
     def text_box_1_pressed_enter(self, sender, **event_args):
         todo = Todo(sender.text)
