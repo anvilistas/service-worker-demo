@@ -1,6 +1,8 @@
 import anvil.server
+from anvil_labs import kompot
 
 
+@kompot.register
 @anvil.server.portable_class
 class Todo:
     attributes = ("uuid", "description")

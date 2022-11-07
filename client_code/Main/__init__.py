@@ -9,10 +9,17 @@ from ._anvil_designer import MainTemplate
 
 class Main(MainTemplate):
     def __init__(self, **properties):
+        self.sync_status = "synced"
         self.init_components(**properties)
         publisher.subscribe("todos", self, self.message_handler)
-        sw.subscribe("todos.sync", self.on_sync)
+        sw.subscribe("todos.sync.starting", self.on_sync_start)
+        sw.subscribe("todos.sync.done", self.on_sync_done)
         self.refresh_todos()
+
+    @property
+    def sync_label_props(self):
+        props = {"synced": {"text": "Synced", "icon": "fa:check"}, "syncing": {"text": "Syncing with server...", "icon": "fa:refresh"}}
+        return props[self.sync_status]
 
     def message_handler(self, message):
         self.refresh_todos()
@@ -38,9 +45,13 @@ class Main(MainTemplate):
     def refresh_todos(self):
         self.repeating_panel_1.items = store.all()
 
-    def on_sync(self, **event_args):
-        msg = "Syncing todos with server..."
-        anvil.Notification(msg).show()
+    def on_sync_start(self, **event_args):
+        self.sync_status = "syncing"
+        self.refresh_data_bindings()
+
+    def on_sync_done(self, **event_args):
+        self.sync_status = "synced"
+        self.refresh_data_bindings()
 
     def text_box_1_pressed_enter(self, sender, **event_args):
         todo = Todo(sender.text)
