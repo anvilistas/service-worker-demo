@@ -7,7 +7,7 @@ services:
 - source: /runtime/services/tables.yml
   client_config: {}
   server_config: {}
-startup: {type: form, module: Main}
+startup: {type: module, module: startup}
 package_name: Offline_Todo_Demo
 allow_embedding: false
 name: Demo - Offline Todo
