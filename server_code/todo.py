@@ -1,6 +1,6 @@
 import anvil.server
 from anvil.tables import app_tables
-from .model import Todo
+from .model.portable import Todo
 
 
 @anvil.server.callable("todo.save")

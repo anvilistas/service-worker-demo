@@ -1,14 +1,14 @@
 from ._anvil_designer import Form1Template
 import anvil.server
 import anvil_labs.service_worker as sw
-from ..model import Todo
+from ..model.portable import Todo
 from ..session import publisher, store
 
 class Form1(Form1Template):
     def __init__(self, **properties):
         self.init_components(**properties)
         publisher.subscribe("todos", self, self.message_handler)
-        sw.add_listener("sync", self.on_bg_sync)
+        sw.subscribe("sync", self.on_bg_sync)
         self.refresh_todos()
 
     def message_handler(self, message):
