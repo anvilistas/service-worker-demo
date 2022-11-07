@@ -1,5 +1,6 @@
 import anvil.server
 from anvil.tables import app_tables
+
 from .model.portable import Todo
 
 
@@ -12,4 +13,5 @@ def sync(todos):
         if row:
             row.delete()
 
+    # This should really exclude the new entries
     return [Todo._from_row(row) for row in app_tables.todo.search()]

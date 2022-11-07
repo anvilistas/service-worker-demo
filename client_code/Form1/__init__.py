@@ -1,8 +1,10 @@
-from ._anvil_designer import Form1Template
 import anvil.server
 import anvil_labs.service_worker as sw
+
 from ..model.portable import Todo
 from ..session import publisher, store
+from ._anvil_designer import Form1Template
+
 
 class Form1(Form1Template):
     def __init__(self, **properties):
@@ -20,7 +22,7 @@ class Form1(Form1Template):
             store.sync()
         except anvil.server.AppOfflineError as e:
             print(f"Failed to sync: {e!r}")
-            sw.register_sync("todos.online") # this won't work in all browsers!
+            sw.register_sync("todos.online")  # this won't work in all browsers!
 
     def refresh_todos(self):
         self.repeating_panel_1.items = store.all()
