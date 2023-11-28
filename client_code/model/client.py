@@ -1,6 +1,6 @@
 import anvil.server
 from anvil_extras.storage import indexed_db
-from anvil_extras.uuid import uuid4
+from uuid import uuid4
 
 from .portable import Todo
 
@@ -24,7 +24,7 @@ class TodoStore:
 
     def save(self, todo):
         if todo.uuid is None:
-            todo.uuid = uuid4()
+            todo.uuid = str(uuid4())
         value = todo._serialise()
         for key in self.storage_keys:
             value[key] = False
